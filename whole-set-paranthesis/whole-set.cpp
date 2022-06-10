@@ -21,6 +21,10 @@ using std::pair;
 
 bool correct_set(string str_in)
 {
+    if (str_in.empty())
+    {
+        return false;
+    }
     vector<char> characters_so_far;
     unordered_map<char, char> paired_parentheses{
         {')', '('},
@@ -48,6 +52,10 @@ bool correct_set(string str_in)
                     characters_so_far.pop_back();
                     continue;
                 }
+                else
+                {
+                    return false;
+                }
             }
         }
     }
@@ -67,14 +75,19 @@ int main(void)
         {"}{", false},
         {")(", false},
         {"][", false},
-        {"123", false}
-    };
+        {"123", false},
+        {"(])", false},
+        {"[(]", false},
+        {"{)}", false},
+        {"", false},
+        {"{}[]()", true}};
     for (auto const &[str_out, ground_truth] : test_cases)
     {
         bool is_correct = correct_set(str_out);
         cout << std::boolalpha
              << is_correct
              << endl;
+
         assert(ground_truth == is_correct);
     }
     return 0;
